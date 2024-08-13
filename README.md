@@ -19,14 +19,14 @@ A .NET library for generating textures
 		.ScaleToSizeBilinear(ImageSize.Size32);
 		
 	var noise = 
-        Generate.SimpleNoise(bricks.ImageSize)
-        .CompressRange(.85f, 1f);
+    	Generate.SimpleNoise(bricks.ImageSize)
+    	.CompressRange(.85f, 1f);
 
 	var color = Generate.Color(
-        bricks.ImageSize, 
-        new ColorGenerator.Parameters { 
-            Color = TextureGen.Color.FromArgb(255, 255, 255, 255) 
-        });
+    	bricks.ImageSize, 
+    	new ColorGenerator.Parameters { 
+    		Color = TextureGen.Color.FromArgb(255, 255, 255, 255) 
+    	});
 
 	var texture = bricks.CompressRange(.5f, 1f) * color * noise;
 ```
