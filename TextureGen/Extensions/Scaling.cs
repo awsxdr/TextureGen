@@ -25,7 +25,6 @@ public static class Scaling
 
         var colorMap = Color.ArrayFromBytes(texture.Data);
         var intSourceSize = (int)texture.ImageSize;
-        Color GetColor(int x, int y) => colorMap[(y % intSourceSize) * intSourceSize + (x % intSourceSize)];
 
         return scaleFactor < 1f
             ? new Texture(size, (x, y) =>
@@ -62,11 +61,12 @@ public static class Scaling
                             c[2] + v[2],
                         ]);
 
-                return Color.FromArgb(
-                    255,
+                return Color.FromRgb(
                     (byte)(totals[0] / (float)sourceColors.Length),
                     (byte)(totals[1] / (float)sourceColors.Length),
                     (byte)(totals[2] / (float)sourceColors.Length));
             });
+
+        Color GetColor(int x, int y) => colorMap[(y % intSourceSize) * intSourceSize + (x % intSourceSize)];
     }
 }

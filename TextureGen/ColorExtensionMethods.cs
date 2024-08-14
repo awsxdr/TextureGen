@@ -1,7 +1,9 @@
 ﻿namespace TextureGen;
 
+using System.Runtime.InteropServices;
+
 public static class ColorExtensionMethods
 {
-    public static Memory<byte> ToBytes(this IEnumerable<Color> colors) =>
-        new (colors.SelectMany(c => c.ToBytes()).ToArray());
+    public static byte[] ToBytes(this IEnumerable<Color> colors) =>
+        MemoryMarshal.AsBytes(colors.ToArray().AsSpan()).ToArray();
 }

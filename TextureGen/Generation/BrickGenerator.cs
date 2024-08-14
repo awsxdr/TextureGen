@@ -15,24 +15,39 @@ public class BrickGenerator(ImageSize imageSize) : IGenerator<BrickGenerator.Par
                         .Select(_ => GetRandomBrick()).ToArray())
                 .ToArray();
 
-        var rowHeight = (int)imageSize / (float)parameters.Rows;
-        var columnWidth = (int)imageSize / (float)parameters.Columns;
+        var intImageSize = (int)imageSize;
 
-        return new Texture(imageSize, (x, y) =>
+        var rowHeight = (int)(intImageSize / (float)parameters.Rows);
+        var rowGap = (int)((1f - parameters.BrickHeight) * rowHeight);
+        var columnWidth = (int)(intImageSize / (float)parameters.Columns);
+        var columnGap = (int)((1f - parameters.BrickWidth) * columnWidth);
+
+        var data = new byte[intImageSize * intImageSize * Color.Size];
+        var dataSpan = data.AsSpan();
+
+        for (var row = 0; row < parameters.Rows; ++row)
         {
-            var yIndex = (int)(y / rowHeight);
-            var offsetX = (x + (yIndex % 2 == 0 ? 0 : (int)(parameters.Offset * columnWidth))) % (int)imageSize;
-            var xIndex = (int)(offsetX / columnWidth);
-            var brickColor = Color.Gray((byte)(bricks[xIndex][yIndex] * 255));
+            var rowOffset = row % 2 == 0 ? 0 : (int)(parameters.Offset * columnWidth);
 
-            var xPercentage = offsetX % columnWidth / columnWidth;
-            var yPercentage = y % rowHeight / rowHeight;
+            var initialBrickEnd = (int)(rowOffset - (1f - parameters.BrickWidth) * columnWidth);
+            (int Start, int Length, int BrickIndex)[] brickLines =
+                Enumerable.Range(0, parameters.Columns)
+                    .Select(c => (rowOffset + c * columnWidth, columnWidth - columnGap, c))
+                    .Prepend((0, initialBrickEnd, parameters.Columns - 1))
+                    .ToArray();
 
-            if (xPercentage > parameters.BrickWidth || yPercentage > parameters.BrickHeight)
-                brickColor = Color.FromArgb(255, 0, 0, 0);
+            foreach (var (start, length, brickIndex) in brickLines)
+            {
+                if (length <= 0) continue;
 
-            return brickColor;
-        });
+                for (var y = 0; y < rowHeight - rowGap; ++y)
+                {
+                    dataSpan.Slice(((row * rowHeight + y) * intImageSize + start) * Color.Size, length * Color.Size).Fill((byte)(bricks[brickIndex][row] * 255));
+                }
+            }
+        }
+
+        return new Texture(imageSize, data);
     }
 
     public class Parameters

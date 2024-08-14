@@ -1,60 +1,50 @@
 ﻿namespace TextureGen;
 
-public class Color
+using System.Runtime.InteropServices;
+
+[StructLayout(LayoutKind.Explicit, Size = 3)]
+public readonly struct Color
 {
-    public byte Alpha { get; init; }
-    public byte Red { get; init; }
-    public byte Green { get; init; }
-    public byte Blue { get; init; }
+    [field: FieldOffset(2)] public byte Red { get; init; }
+    [field: FieldOffset(1)] public byte Green { get; init; }
+    [field: FieldOffset(0)] public byte Blue { get; init; }
+
+    public const int Size = 3;
 
     public static Color FromBytes(ReadOnlyMemory<byte> bytes)
     {
-        if (bytes.Length != 4) throw new InvalidSpanLengthException();
+        if (bytes.Length != 3) throw new InvalidSpanLengthException();
 
         return FromBytesUnchecked(bytes);
     }
 
     public static Color[] ArrayFromBytes(ReadOnlyMemory<byte> bytes)
     {
-        if (bytes.Length % 4 != 0) throw new InvalidSpanLengthException();
+        if (bytes.Length % 3 != 0) throw new InvalidSpanLengthException();
 
-        return Enumerable.Range(0, bytes.Length / 4)
-            .Select(i => bytes.Slice(i * 4, 4))
-            .Select(FromBytesUnchecked)
-            .ToArray();
+        return MemoryMarshal.Cast<byte, Color>(bytes.Span).ToArray();
     }
 
-    public static Color FromArgb(byte alpha, byte red, byte green, byte blue) => FromBytes(new Memory<byte>([blue, green, red, alpha]));
+    public static Color FromRgb(byte red, byte green, byte blue) => FromBytesUnchecked(new Memory<byte>([blue, green, red]));
 
-    public static Color Gray(byte value) => FromArgb(255, value, value, value);
+    public static Color Gray(byte value) => FromRgb(value, value, value);
 
     public static Color operator *(Color color, float value) => 
-        FromArgb(
-            color.Alpha,
+        FromRgb(
             (byte)MathF.Min(255f, color.Red * value),
             (byte)MathF.Min(255f, color.Green * value),
             (byte)MathF.Min(255f, color.Blue * value));
 
     public static Color operator +(Color color, Color value) =>
-        FromArgb(
-            (byte)((color.Alpha + value.Alpha) / 2f), 
+        FromRgb(
             (byte)Math.Min(255, color.Red + value.Red), 
             (byte)Math.Min(255, color.Green + value.Green),
             (byte)Math.Min(255, color.Blue + value.Blue));
 
-    public byte[] ToBytes() => [Blue, Green, Red, Alpha];
+    public byte[] ToBytes() => [Blue, Green, Red];
 
-    private static Color FromBytesUnchecked(ReadOnlyMemory<byte> bytes)
-    {
-        var span = bytes.Span;
-        return new Color
-        {
-            Alpha = span[3],
-            Red = span[2],
-            Green = span[1],
-            Blue = span[0],
-        };
-    }
+    private static Color FromBytesUnchecked(ReadOnlyMemory<byte> bytes) =>
+        MemoryMarshal.AsRef<Color>(bytes.Span);
 
     public class InvalidSpanLengthException : ArgumentException;
 }

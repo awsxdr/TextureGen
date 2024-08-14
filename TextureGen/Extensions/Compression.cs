@@ -11,6 +11,6 @@ public static class Compression
 
         return new Texture(
             texture.ImageSize,
-            colorMap.Select(c => Color.FromArgb(c.Alpha, CompressByte(c.Red), CompressByte(c.Green), CompressByte(c.Blue))).ToBytes());
+            colorMap.Select(c => Color.FromRgb(CompressByte(c.Red), CompressByte(c.Green), CompressByte(c.Blue))).ToBytes());
     }
 }

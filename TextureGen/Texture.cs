@@ -13,7 +13,7 @@ public abstract class TextureBase
 
     protected TextureBase(ImageSize size, Memory<byte> data)
     {
-        var expectedDataLength = (int)size * (int)size * 4;
+        var expectedDataLength = (int)size * (int)size * Color.Size;
 
         if (data.Length != expectedDataLength) throw new InvalidDataLengthException();
 
@@ -38,7 +38,7 @@ public abstract class TextureBase
     public byte[] ToByteArray() => Data.ToArray();
 
     public Color ColorAt(int x, int y) =>
-        Color.FromBytes(Data.Slice((x % (int)ImageSize) * 4 + (y % (int)ImageSize) * (int)ImageSize * 4, 4));
+        Color.FromBytes(Data.Slice((x % (int)ImageSize) * Color.Size + (y % (int)ImageSize) * (int)ImageSize * Color.Size, Color.Size));
 }
 
 public class Texture : TextureBase
@@ -76,7 +76,7 @@ public class NormalTexture : TextureBase
         byte VectorValueToByte(float value) => (byte)(255 * (0.5f + value / 2f));
 
         Color NormalToColor(Vector3 normal) =>
-            Color.FromArgb(255, VectorValueToByte(normal.X), VectorValueToByte(normal.Y),
+            Color.FromRgb(VectorValueToByte(normal.X), VectorValueToByte(normal.Y),
                 VectorValueToByte(-normal.Z));
     }
 }

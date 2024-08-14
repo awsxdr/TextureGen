@@ -9,7 +9,7 @@ public static class Persistence
         using var image = new ImageMagick.MagickImage();
         image.ReadPixels(
             texture.Data.ToArray(), 
-            new PixelReadSettings((int)texture.ImageSize, (int)texture.ImageSize, StorageType.Char, PixelMapping.BGRA));
+            new PixelReadSettings((int)texture.ImageSize, (int)texture.ImageSize, StorageType.Char, PixelMapping.BGR));
 
         var data = image.ToByteArray(MagickFormat.Png);
         File.WriteAllBytes(path, data);
