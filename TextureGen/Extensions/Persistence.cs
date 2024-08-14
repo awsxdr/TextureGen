@@ -4,7 +4,7 @@ using ImageMagick;
 
 public static class Persistence
 {
-    public static void SavePng(this Texture texture, string path)
+    public static void SavePng(this TextureBase texture, string path)
     {
         using var image = new ImageMagick.MagickImage();
         image.ReadPixels(
