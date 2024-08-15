@@ -9,13 +9,12 @@ public static class Normals
     {
         var colorMap = Color.ArrayFromBytes(texture.Data);
 
-        var intSize = (int)texture.ImageSize;
-        var normals = new Vector3[intSize * intSize];
+        var normals = new Vector3[texture.ImageSize * texture.ImageSize];
 
         var normalIndex = 0;
-        for (var y = 0; y < intSize; ++y)
+        for (var y = 0; y < texture.ImageSize; ++y)
         {
-            for (var x = 0; x < intSize; ++x)
+            for (var x = 0; x < texture.ImageSize; ++x)
             {
                 normals[normalIndex++] = Vector3.Normalize(
                     new Vector3(
@@ -29,7 +28,7 @@ public static class Normals
         return new NormalTexture(texture.ImageSize, normals);
 
         float GetPixelAverage(int x, int y) =>
-            colorMap[(x + intSize) % intSize + ((y + intSize) % intSize) * intSize]
+            colorMap[(x + texture.ImageSize) % texture.ImageSize + ((y + texture.ImageSize) % texture.ImageSize) * texture.ImageSize]
                 .Map(c => (c.Red + c.Green + c.Blue) / 3f / 255f);
 
     }

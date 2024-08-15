@@ -38,7 +38,7 @@ public abstract class TextureBase
     public byte[] ToByteArray() => Data.ToArray();
 
     public Color ColorAt(int x, int y) =>
-        Color.FromBytes(Data.Slice((x % (int)ImageSize) * Color.Size + (y % (int)ImageSize) * (int)ImageSize * Color.Size, Color.Size));
+        Color.FromBytes(Data.Slice((x % ImageSize) * Color.Size + (y % ImageSize) * ImageSize * Color.Size, Color.Size));
 }
 
 public class Texture : TextureBase

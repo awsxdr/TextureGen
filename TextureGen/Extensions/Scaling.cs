@@ -6,7 +6,7 @@ public static class Scaling
     {
         if (texture.ImageSize == size) return texture;
 
-        var scaleFactor = (float)texture.ImageSize / (float)size;
+        var scaleFactor = texture.ImageSize / (float)size;
 
         return new Texture(size, (x, y) =>
         {
@@ -21,10 +21,9 @@ public static class Scaling
     {
         if (texture.ImageSize == size) return texture;
 
-        var scaleFactor = (float)texture.ImageSize / (float)size;
+        var scaleFactor = texture.ImageSize / (float)size;
 
         var colorMap = Color.ArrayFromBytes(texture.Data);
-        var intSourceSize = (int)texture.ImageSize;
 
         return scaleFactor < 1f
             ? new Texture(size, (x, y) =>
@@ -67,6 +66,6 @@ public static class Scaling
                     (byte)(totals[2] / (float)sourceColors.Length));
             });
 
-        Color GetColor(int x, int y) => colorMap[(y % intSourceSize) * intSourceSize + (x % intSourceSize)];
+        Color GetColor(int x, int y) => colorMap[(y % texture.ImageSize) * texture.ImageSize + (x % texture.ImageSize)];
     }
 }

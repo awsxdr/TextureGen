@@ -4,7 +4,7 @@ public class ColorGenerator(ImageSize imageSize) : IGenerator<ColorGenerator.Par
 {
     public Texture Generate(Parameters parameters)
     {
-        var data = Enumerable.Repeat(parameters.Color, (int)imageSize * (int)imageSize).ToArray().ToBytes();
+        var data = Enumerable.Repeat(parameters.Color, imageSize * imageSize).ToArray().ToBytes();
 
         return new(imageSize, data);
     }

@@ -4,19 +4,17 @@ public class RectangleGenerator(ImageSize imageSize) : IGenerator<RectangleGener
 {
     public Texture Generate(Parameters parameters)
     {
-        var intImageSize = (int)imageSize;
+        var columnStart = (int)(imageSize * parameters.Left);
+        var columnCount = Math.Min((int)(imageSize * parameters.Width), imageSize - columnStart);
+        var rowStart = (int)(imageSize * parameters.Top);
+        var rowEnd = Math.Min((int)(imageSize * (parameters.Top + parameters.Height)), imageSize);
 
-        var columnStart = (int)(intImageSize * parameters.Left);
-        var columnCount = Math.Min((int)(intImageSize * parameters.Width), intImageSize - columnStart);
-        var rowStart = (int)(intImageSize * parameters.Top);
-        var rowEnd = Math.Min((int)(intImageSize * (parameters.Top + parameters.Height)), intImageSize);
-
-        var data = new byte[intImageSize * intImageSize * Color.Size];
+        var data = new byte[imageSize * imageSize * Color.Size];
         var dataSpan = data.AsSpan();
 
         for (var row = rowStart; row < rowEnd; ++row)
         {
-            var slice = dataSpan.Slice((row * intImageSize + columnStart) * Color.Size, columnCount * Color.Size);
+            var slice = dataSpan.Slice((row * imageSize + columnStart) * Color.Size, columnCount * Color.Size);
             slice.Fill(255);
         }
 

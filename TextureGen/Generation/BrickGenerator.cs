@@ -15,14 +15,12 @@ public class BrickGenerator(ImageSize imageSize) : IGenerator<BrickGenerator.Par
                         .Select(_ => GetRandomBrick()).ToArray())
                 .ToArray();
 
-        var intImageSize = (int)imageSize;
-
-        var rowHeight = (int)(intImageSize / (float)parameters.Rows);
+        var rowHeight = (int)(imageSize / (float)parameters.Rows);
         var rowGap = (int)((1f - parameters.BrickHeight) * rowHeight);
-        var columnWidth = (int)(intImageSize / (float)parameters.Columns);
+        var columnWidth = (int)(imageSize / (float)parameters.Columns);
         var columnGap = (int)((1f - parameters.BrickWidth) * columnWidth);
 
-        var data = new byte[intImageSize * intImageSize * Color.Size];
+        var data = new byte[imageSize * imageSize * Color.Size];
         var dataSpan = data.AsSpan();
 
         for (var row = 0; row < parameters.Rows; ++row)
@@ -42,7 +40,7 @@ public class BrickGenerator(ImageSize imageSize) : IGenerator<BrickGenerator.Par
 
                 for (var y = 0; y < rowHeight - rowGap; ++y)
                 {
-                    dataSpan.Slice(((row * rowHeight + y) * intImageSize + start) * Color.Size, length * Color.Size).Fill((byte)(bricks[brickIndex][row] * 255));
+                    dataSpan.Slice(((row * rowHeight + y) * imageSize + start) * Color.Size, length * Color.Size).Fill((byte)(bricks[brickIndex][row] * 255));
                 }
             }
         }

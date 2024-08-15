@@ -4,7 +4,7 @@ public class SimpleNoiseGenerator(ImageSize imageSize) : IGenerator<SimpleNoiseG
 {
     public Texture Generate(Parameters parameters)
     {
-        var randomData = new byte[(int)imageSize * (int)imageSize];
+        var randomData = new byte[imageSize * imageSize];
         Random.Shared.NextBytes(randomData);
 
         var data = new byte[randomData.Length * Color.Size];
