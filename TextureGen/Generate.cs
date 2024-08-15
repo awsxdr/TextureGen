@@ -12,4 +12,7 @@ public static class Generate
 
     public static Texture SimpleNoise(ImageSize size) =>
         new SimpleNoiseGenerator(size).Generate(new());
+
+    public static Texture Rectangle(ImageSize size, RectangleGenerator.Parameters parameters) =>
+        new RectangleGenerator(size).Generate(parameters);
 }
