@@ -50,9 +50,32 @@ public class Texture : TextureBase
     {
         if (texture1.ImageSize != texture2.ImageSize) throw new TextureSizesDoNotMatchException();
 
-        var newData = texture1.ToByteArray().Zip(texture2.ToByteArray(), (b1, b2) => (byte)((b1 / 255f) * (b2 / 255f) * 255f)).ToArray();
+        var texture1Data = texture1.Data.Span;
+        var texture2Data = texture2.Data.Span;
+        var resultData = new byte[texture1Data.Length];
+        var resultSpan = resultData.AsSpan();
 
-        return new(texture1.ImageSize, newData);
+        for (var i = 0; i < texture1Data.Length; ++i)
+        {
+            resultSpan[i] = (byte)((((texture1Data[i] + 1) * texture2Data[i]) & 0xFF00) >> 8);
+        }
+
+        return new(texture1.ImageSize, resultData);
+    }
+
+    public static Texture operator ~(Texture texture)
+    {
+        var textureData = texture.Data.Span;
+        var resultData = new byte[textureData.Length];
+        var resultSpan = resultData.AsSpan();
+
+        for (var i = 0; i < textureData.Length; ++i)
+        {
+            resultSpan[i] = (byte)~textureData[i];
+
+        }
+
+        return new(texture.ImageSize, resultData);
     }
 }
 
