@@ -15,4 +15,7 @@ public static class Generate
 
     public static Texture Rectangle(ImageSize size, RectangleGenerator.Parameters parameters) =>
         new RectangleGenerator(size).Generate(parameters);
+
+    public static Texture LinearGradient(ImageSize size) =>
+        new LinearGradientGenerator(size).Generate(new());
 }
