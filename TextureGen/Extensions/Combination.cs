@@ -17,7 +17,7 @@ public static class Combination
                 maskData[i] switch
                 {
                     0 => texture2Data[i],
-                    1 => texture1Data[i],
+                    255 => texture1Data[i],
                     var w => (byte)((w * texture1Data[i] + (255 - w) * texture2Data[i]) / 255)
                 };
         }
