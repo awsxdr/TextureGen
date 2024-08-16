@@ -18,4 +18,5 @@ public sealed class ImageSize
     public static readonly ImageSize Size1024 = 1024;
     public static readonly ImageSize Size2048 = 2048;
     public static readonly ImageSize Size4096 = 4096;
+    public static readonly ImageSize Size8192 = 8192;
 }
