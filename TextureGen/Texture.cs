@@ -99,9 +99,9 @@ public class NormalTexture : TextureBase
             normalEnumerator.MoveNext();
 
             var normal = normalEnumerator.Current;
-            dataSpan[i] = VectorValueToByte(normal.X);
+            dataSpan[i + 2] = VectorValueToByte(normal.X);
             dataSpan[i + 1] = VectorValueToByte(normal.Y);
-            dataSpan[i + 2] = VectorValueToByte(-normal.Z);
+            dataSpan[i] = VectorValueToByte(-normal.Z);
         }
 
         return data;
