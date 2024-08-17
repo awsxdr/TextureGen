@@ -84,22 +84,28 @@ public class NormalTexture : TextureBase
     public NormalTexture(ImageSize size, Memory<byte> data) : base(size, data) { }
     public NormalTexture(ImageSize size, ColorFactoryMethod colorFactory) : base(size, colorFactory) { }
 
-    public NormalTexture(ImageSize size, IEnumerable<Vector3> normals) : base(size, NormalsToColors(size, normals))
+    public NormalTexture(ImageSize size, IEnumerable<Vector3> normals) : base(size, GetNormalsData(size, normals))
     {
     }
 
-    private static ColorFactoryMethod NormalsToColors(ImageSize size, IEnumerable<Vector3> normals)
+    private static byte[] GetNormalsData(ImageSize size, IEnumerable<Vector3> normals)
     {
-        normals = normals.ToArray();
+        var data = new byte[size * size * Color.Size];
+        var dataSpan = data.AsSpan();
+        using var normalEnumerator = normals.GetEnumerator();
 
-        return (x, y) => GetNormal(x, y).Map(NormalToColor);
+        for (var i = 0; i < data.Length; i += Color.Size)
+        {
+            normalEnumerator.MoveNext();
 
-        Vector3 GetNormal(int x, int y) => normals.ElementAt(x + y * (int)size);
+            var normal = normalEnumerator.Current;
+            dataSpan[i] = VectorValueToByte(normal.X);
+            dataSpan[i + 1] = VectorValueToByte(normal.Y);
+            dataSpan[i + 2] = VectorValueToByte(-normal.Z);
+        }
+
+        return data;
 
         byte VectorValueToByte(float value) => (byte)(255 * (0.5f + value / 2f));
-
-        Color NormalToColor(Vector3 normal) =>
-            Color.FromRgb(VectorValueToByte(normal.X), VectorValueToByte(normal.Y),
-                VectorValueToByte(-normal.Z));
     }
 }
