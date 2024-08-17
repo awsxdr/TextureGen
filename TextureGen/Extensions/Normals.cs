@@ -29,9 +29,9 @@ public static class Normals
             averagesMap[y + 1] = new float[imageSize + 2];
             var rowSpan = averagesMap[y + 1].AsSpan();
             var wrappedY = (y + imageSize) % imageSize;
-            averagesSpan.Slice(wrappedY * imageSize, imageSize).CopyTo(rowSpan);
+            averagesSpan.Slice(wrappedY * imageSize, imageSize).CopyTo(rowSpan[1..]);
             rowSpan[0] = averagesSpan[wrappedY * imageSize + imageSize - 1];
-            rowSpan[imageSize] = averagesSpan[wrappedY * imageSize];
+            rowSpan[imageSize + 1] = averagesSpan[wrappedY * imageSize];
         }
 
         var normals = new Vector3[imageSize * imageSize];
