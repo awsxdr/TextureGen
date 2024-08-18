@@ -63,6 +63,23 @@ public class Texture : TextureBase
         return new(texture1.ImageSize, resultData);
     }
 
+    public static Texture operator -(Texture texture1, Texture texture2)
+    {
+        if (texture1.ImageSize != texture2.ImageSize) throw new TextureSizesDoNotMatchException();
+
+        var texture1Data = texture1.Data.Span;
+        var texture2Data = texture2.Data.Span;
+        var resultData = new byte[texture1Data.Length];
+        var resultSpan = resultData.AsSpan();
+
+        for (var i = 0; i < texture1Data.Length; ++i)
+        {
+            resultSpan[i] = (byte)Math.Max(0, texture1Data[i] - texture2Data[i]);
+        }
+
+        return new(texture1.ImageSize, resultData);
+    }
+
     public static Texture operator ~(Texture texture)
     {
         var textureData = texture.Data.Span;
