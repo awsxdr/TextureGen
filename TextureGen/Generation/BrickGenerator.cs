@@ -50,13 +50,13 @@ public class BrickGenerator(ImageSize imageSize) : IGenerator<BrickGenerator.Par
 
     public class Parameters
     {
-        public required PositiveInt Rows { get; init; }
-        public required PositiveInt Columns { get; init; }
-        public Percentage Offset { get; init; } = 0.5f;
-        public Percentage BrickWidth { get; init; } = 1.0f;
-        public Percentage BrickHeight { get; init; } = 1.0f;
-        public Percentage MinimumHeight { get; init; } = 0.0f;
-        public Percentage MaximumHeight { get; init; } = 1.0f;
-        public Percentage HeightVariance { get; init; } = 0.0f;
+        public required int Rows { get; init; }
+        public required int Columns { get; init; }
+        public float Offset { get; init; } = 0.5f;
+        public float BrickWidth { get; init; } = 1.0f;
+        public float BrickHeight { get; init; } = 1.0f;
+        public float MinimumHeight { get; init; } = 0.0f;
+        public float MaximumHeight { get; init; } = 1.0f;
+        public float HeightVariance { get; init; } = 0.0f;
     }
 }

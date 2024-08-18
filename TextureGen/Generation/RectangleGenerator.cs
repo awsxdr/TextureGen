@@ -70,12 +70,12 @@ public class RectangleGenerator(ImageSize imageSize) : IGenerator<RectangleGener
                 if (gradientWidth > 0)
                 {
                     var gradientColumnStep = 255 / gradientWidth;
-                    for (var x = 0; x < gradientWidth; ++x)
-                    {
-                        var value = (byte)Math.Min(x * gradientColumnStep, y * gradientRowStep);
-                        topRowSpan.Slice((x + columnStart) * Color.Size, Color.Size).Fill(value);
-                        topRowSpan.Slice((columnStart + columnCount - x - 1) * Color.Size, Color.Size).Fill(value);
-                    }
+                for (var x = 0; x < gradientWidth; ++x)
+                {
+                    var value = (byte)Math.Min(x * gradientColumnStep, y * gradientRowStep);
+                    topRowSpan.Slice((x + columnStart) * Color.Size, Color.Size).Fill(value);
+                    topRowSpan.Slice((columnStart + columnCount - x - 1) * Color.Size, Color.Size).Fill(value);
+                }
                 }
 
                 topRowSpan.Slice((columnStart + gradientWidth) * Color.Size,
@@ -97,10 +97,10 @@ public class RectangleGenerator(ImageSize imageSize) : IGenerator<RectangleGener
 
     public class Parameters
     {
-        public Percentage Left { get; init; } = 0.0f;
-        public Percentage Top { get; init; } = 0.0f;
-        public Percentage Width { get; init; } = 1.0f;
-        public Percentage Height { get; init;} = 1.0f;
-        public Percentage Gradient { get; init; } = 0.0f;
+        public float Left { get; init; } = 0.0f;
+        public float Top { get; init; } = 0.0f;
+        public float Width { get; init; } = 1.0f;
+        public float Height { get; init;} = 1.0f;
+        public float Gradient { get; init; } = 0.0f;
     }
 }

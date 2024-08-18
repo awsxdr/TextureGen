@@ -5,7 +5,9 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TextureGen", "TextureGen\TextureGen.csproj", "{B3A97E17-8F46-4A42-9794-0383D324B897}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextureGen.Tests", "TextureGen.Tests\TextureGen.Tests.csproj", "{2E7C9FA3-34FF-44B0-9A1A-C8CE22BE535C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TextureGen.Tests", "TextureGen.Tests\TextureGen.Tests.csproj", "{2E7C9FA3-34FF-44B0-9A1A-C8CE22BE535C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextureGen.SourceGenerators", "TextureGen.SourceGenerators\TextureGen.SourceGenerators.csproj", "{41362D47-00D1-4ED6-9EF9-A812B3C70E82}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{2E7C9FA3-34FF-44B0-9A1A-C8CE22BE535C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2E7C9FA3-34FF-44B0-9A1A-C8CE22BE535C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2E7C9FA3-34FF-44B0-9A1A-C8CE22BE535C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{41362D47-00D1-4ED6-9EF9-A812B3C70E82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{41362D47-00D1-4ED6-9EF9-A812B3C70E82}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{41362D47-00D1-4ED6-9EF9-A812B3C70E82}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{41362D47-00D1-4ED6-9EF9-A812B3C70E82}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

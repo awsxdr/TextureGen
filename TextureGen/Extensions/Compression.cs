@@ -2,7 +2,7 @@
 
 public static class Compression
 {
-    public static Texture CompressRange(this Texture texture, Percentage minimum, Percentage maximum)
+    public static Texture CompressRange(this Texture texture, float minimum, float maximum)
     {
         var colorMap = Color.ArrayFromBytes(texture.Data);
 
